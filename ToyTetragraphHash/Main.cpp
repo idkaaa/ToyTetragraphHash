@@ -12,6 +12,7 @@
 //vector[i] = sum of column % 26. (again)
 //repeat the process until all characters in string have been consumed.
 //convert back to characters and output hash.
+
 #include "ToyTetragraphHash.h"
 #include <iostream>
 
