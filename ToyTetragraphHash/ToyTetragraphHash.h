@@ -8,11 +8,12 @@ using namespace std;
 class ToyTetragraphHash
 {
 public:
-	string hashAString(string stringToBeHashed);
+	string* hashAString(string stringToBeHashed);
 
 private:
 	//methods
-	int digestCharacter(char& yummyChar);
+	
+	int digestValidCharacter(char& yummyChar);
 	char regurgitateCharacter(int& nastyInt);
 	bool isLetter(char& maybeChar);
 	void leftShiftRow(int rowIndex, int numberOfShifts);
