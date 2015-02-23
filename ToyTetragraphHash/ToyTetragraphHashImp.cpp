@@ -7,32 +7,34 @@
 
 //public interface for alpha string hashing. 
 //Default chunk size of 16 (4x4 matrix).
-//returns a pointer to the alpha hash
-string ToyTetragraphHash::hashAString(string inputString)
+void ToyTetragraphHash::hashAString(string inputString)
 {
+	m_rawInputString = inputString;
 	int chunkSize = 16;
 	const int maxRows = 4, maxCols = 4;
 	bool chunkFilled = false;
 	int moduloNumber = 26;
-	string hash;
 
 
 
 	//init
-	sterilizeString(inputString);
-	g_result = { 0, 0, 0, 0 };
+	m_cleanedString = sterilizeString(m_rawInputString); //clean everything but alpha characters
+	
+	string hashString = m_cleanedString;
+	
+	g_result = { 0, 0, 0, 0 }; 
 
-	while (!inputString.empty())
+	while (!hashString.empty())
 	{
 		//round1
-		fillChunk(inputString, maxRows, maxCols);
+		fillChunk(hashString, maxRows, maxCols);
 		calculateResult(moduloNumber, maxRows, maxCols);
 		
 
-		//round2
+		//round2. logical left-shift rows by their row# + 1.
 		for (int i = 0; i < maxRows-1; ++i)
 		{
-			leftShiftRow(i, i + 1);
+			rotateRow(i, i + 1);
 		}
 		//reverse the last row
 		reverseRow(maxRows-1);
@@ -42,17 +44,14 @@ string ToyTetragraphHash::hashAString(string inputString)
 	//finish up by converting resulting hash back to alphas
 	for (int i = 0; i < maxCols; ++i)
 	{
-		char c = (g_result.back() + 65);//coerce back to ASCII uppercase so A=0;
+		char c = (g_result.back() + 65);//coerce back to ASCII uppercase so A=0, B=1, etc..;
+		
 		g_result.pop_back();
 
-		hash.insert(hash.begin(), c);
+		m_outputString.insert(m_outputString.begin(), c);
 	}
 
-
-	
-	
-
-	return hash;
+	return;
 
 };
 
@@ -64,7 +63,7 @@ void ToyTetragraphHash::reverseRow(int rowIndex)
 }
 
 
-void ToyTetragraphHash::leftShiftRow(int rowIndex, int numOfShifts)
+void ToyTetragraphHash::rotateRow(int rowIndex, int numOfShifts)
 { 
 	rotate(g_chunk[rowIndex].begin(), g_chunk[rowIndex].begin() + numOfShifts, g_chunk[rowIndex].end());
 	return;
@@ -93,7 +92,7 @@ int ToyTetragraphHash::sumColumn(int colIndex, int maxRows)
 	return sum;
 }
 
-bool ToyTetragraphHash::sterilizeString(string& dirtyString)
+string ToyTetragraphHash::sterilizeString(string& dirtyString)
 {
 
 	string cleanString;
@@ -108,9 +107,9 @@ bool ToyTetragraphHash::sterilizeString(string& dirtyString)
 		}
 	}
 
-	dirtyString.clear();
-	dirtyString = cleanString;
-	return true;
+	//dirtyString.clear();
+	//dirtyString = cleanString;
+	return cleanString;
 }
 
 //fills chunk. inserts NULLS if string is empty.
@@ -152,3 +151,9 @@ bool ToyTetragraphHash::isLetter(char& c)
 	return isalnum(c);
 };
 
+void ToyTetragraphHash::printHash()
+{
+	cout << m_rawInputString << "  = string sent to hashing function.\n";
+	cout << m_cleanedString << "  = string to be hashed." << "\n";
+	cout << m_outputString << "  = hash.\n\n";
+}

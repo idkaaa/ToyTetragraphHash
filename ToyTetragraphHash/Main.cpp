@@ -16,74 +16,35 @@
 
 #include "ToyTetragraphHash.h"
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
 //entry point
 void main()
 {
-	string testString;
-	string hash;
 
-	//example1
-	testString = "ABCDEFGHIJKLMNOP";
-	cout << "String to Hash: "<< testString << "\n";
+	string inputFile = "strings.txt";
 
-	ToyTetragraphHash testHash1;
+	//loop through each line of strings in strings.txt
+	std::ifstream input(inputFile);
 
-	hash = testHash1.hashAString(testString);
-	
-	cout << "Hash: " << hash << "\n";
+	cout << "Reading " << inputFile << "...\n\n";
 
+	for (std::string line; getline(input, line);)
+	{
+		ToyTetragraphHash m_hasher;
 
-	//example2
-	testString = "AB!CDEFGH,IJKLmn OP;";
-	cout << "String to Hash: " << testString << "\n";
+		m_hasher.hashAString(line);
 
+		m_hasher.printHash();
 
-	ToyTetragraphHash testHash2;
-
-	hash = testHash2.hashAString(testString);
-
-	cout << "Hash: " << hash << "\n";
-
-	
-	
-	//example3
-	testString = "ABCDEFGHIJKLMNOPQ";
-	cout << "String to Hash: " << testString << "\n";
+	}
 
 
-	ToyTetragraphHash testHash3;
+	cout << "press any key to exit...";
 
-	hash = testHash3.hashAString(testString);
-
-	cout << "Hash: " << hash << "\n";
-
-
-
-	//example4
-	testString = "ABCDEFGHIJKLMNOPABCDEFGHIJKLMNOPABCDEFGHIJKLMNOP";
-	cout << "String to Hash: " << testString << "\n";
-
-
-	ToyTetragraphHash testHash4;
-
-	hash = testHash4.hashAString(testString);
-
-	cout << "Hash: " << hash << "\n";
-
-	//example5
-	testString = "AACDEFGHIJKLMNOP";
-	cout << "String to Hash: " << testString << "\n";
-
-
-	ToyTetragraphHash testHash5;
-
-	hash = testHash5.hashAString(testString);
-
-	cout << "Hash: " << hash << "\n";
-
+	cin.get();
 
 	return;
 }

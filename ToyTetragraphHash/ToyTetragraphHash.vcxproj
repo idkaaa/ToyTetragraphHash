@@ -64,11 +64,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="ToyTetragraphHash.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ToyTetragraphHashImp.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ToyTetragraphHash.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="strings.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
