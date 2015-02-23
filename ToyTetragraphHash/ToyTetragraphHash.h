@@ -15,6 +15,7 @@
 
 #ifndef TOYTETRAGRAPHHASH_H
 #define TOYTETRAGRAPHHASH_H
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -23,24 +24,29 @@ using namespace std;
 class ToyTetragraphHash
 {
 public:
-	string hashAString(string stringToBeHashed);
+	void hashAString(string stringToBeHashed);
+	void printHash();
 
 private:
 	//methods
-	bool sterilizeString(string& dirtyString);
-	bool fillChunk(string&, int maxRows, int maxCols);
+	string sterilizeString(string& dirtyString);  //cleans the string of non-alpha characters
+	bool fillChunk(string&, int maxRows, int maxCols); //populates the matrix with ints converted from the chars
 	char consumeValidCharacter(string& yummyString);
 	bool calculateResult(int moduloNum, int maxRows, int maxCols);
 	bool isLetter(char& maybeChar);
-	void leftShiftRow(int rowIndex, int numberOfShifts);
+	void rotateRow(int rowIndex, int numberOfShifts);
 	void reverseRow(int rowIndex);
 	int sumColumn(int colIndex, int maxRows);
 	
 
 
 	//data
-	vector<int> g_result;
-	vector<vector<int>> g_chunk;
+	
+	string m_rawInputString; //raw(dirty) string
+	string m_cleanedString; //sterilized string
+	string m_outputString; //hash
+	vector<int> g_result; //running total for feeding back into hashing function.
+	vector<vector<int>> g_chunk; //matrix for holding chars converted to ints.
 };
 
 #endif
